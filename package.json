@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "challenge2",
   "main": "./src/app.ts",
+  "type": "module",
   "scripts": {
-    "ts-node": "ts-node ./src/app.ts"
+    "ts-node-esm": "ts-node-esm ./src/app.ts"
   },
   "keywords": [],
   "author": "",
