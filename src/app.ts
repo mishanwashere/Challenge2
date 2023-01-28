@@ -1,14 +1,11 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
+import { LoggingService } from './services/logging.service.js';
+
+const logging = new LoggingService();
 
 try {
     const tennisPlayers: string = await readFile('data.csv', { encoding: 'utf8' }); // using readFile since the data set is small. Larger files should update to streams.
-  } catch (error) {
-    console.error('there was an error:', error.message);
-}
-
-try {
-   let content = "\na logs"
-    await writeFile('logs.txt', content, { flag: 'a' });
+    logging.log("FATAL", "Oops 1");
   } catch (error) {
     console.error('there was an error:', error.message);
 }
