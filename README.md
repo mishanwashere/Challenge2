@@ -1,5 +1,15 @@
 ## README ##
 
+## Installation
+
+Dependencies:
+node@18.13.0
+
+## Usage
+
+1. Add data to the "data.csv" file.
+2. Execute program using "npm run ts-node" in CLI.
+
 Problem Statement:
 
 Given the problem statement 'Technical Assessment.pdf' in project.
@@ -34,3 +44,15 @@ Output string (>80% match):
 
 3. Save additional performance logs to log file (maybe).
 
+## Architectural notes:
+
+data.csv    --(1)-->  app.js  <--(2)--> stringMatch.js
+                        |
+                       (3)
+                        V
+                    output.txt
+                    logs.txt (maybe)
+
+1. app.js reads data.csv, and stores in memory.
+2. app.js passes data.csv (parsed data) to 'stringMatch.js', 'stringMatch.js' returns string match data to app.js.
+3. app.js writes to output.txt and logs.txt (maybe).
