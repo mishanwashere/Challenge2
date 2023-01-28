@@ -1,20 +1,20 @@
 ## README ##
 
-## Installation
+# Installation
 
 Dependencies:
 node@18.13.0
 
-## Usage
+# Usage
 
 1. Add data to the "data.csv" file.
 2. Execute program using "npm run ts-node" in CLI.
 
-Problem Statement:
+# Problem Statement:
 
 Given the problem statement 'Technical Assessment.pdf' in project.
 
-## Approach:
+# Approach:
 
 1. Read from CSV file.
     1.1. Only alphabetic characters
@@ -27,9 +27,10 @@ Given the problem statement 'Technical Assessment.pdf' in project.
 5. Order from highest match to lowest, if identical match order by alphabetical.
 6. Store logs (maybe).
 
-## Technical notes:
+# Technical notes:
 
-1. 
+1. String match program inputs and outputs:
+
 String match program input string:
 '${name1} matches ${name2}'
 
@@ -44,7 +45,7 @@ Output string (>80% match):
 
 3. Save additional performance logs to log file (maybe).
 
-## Architectural notes:
+# Architectural notes:
 
 data.csv    --(1)-->  app.js  <--(2)--> stringMatch.js
                         |
