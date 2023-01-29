@@ -17,12 +17,12 @@ Given the problem statement 'Technical Assessment.pdf' in project.
 
 # Approach:
 
-1. Read from CSV file.
-    1.1. Only alphabetic characters
-    1.2. Casing shouldn't matter.
-2. Group via gender (male/female).
+1. Read from CSV file.  <br />
+    1.1. Only alphabetic characters <br />
+    1.2. Casing shouldn't matter. <br />
+2. Group via gender (male/female). <br />
     2.1. No group should contain duplicates (i.e billy m and billy f)
-3. Run the string match program against the 2 groups (male/female).
+3. Run the string match program against the 2 groups (male/female).  <br />
     3.1. Store result. Assuming storing the value is writing to the output.txt.
 4. String match >80% should append ', good match'
 5. Order from highest match to lowest, if identical match order by alphabetical.
@@ -41,7 +41,7 @@ Output string (<80% match):
 Output string (>80% match):
 '${name1} matches ${name2} ${stringMatchPercentage}%, good match'
 
-2. Test string match program with random character input (Numbers,Symbols,Special Characters).
+2. Test string match program with random character input (Numbers,Symbols,Special Characters).  <br />
     2.1 Excluded data to be logged and saved to file (~~maybe~~).
 
 3. Save additional performance logs to log file (maybe).
