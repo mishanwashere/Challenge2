@@ -8,7 +8,8 @@ node@18.13.0
 # Usage
 
 1. Add data to the "data.csv" file.
-2. Execute program using "npm run ts-node" in CLI.
+2. Run "npm install".
+3. Execute program using "npm run ts-node-esm" in CLI.
 
 # Problem Statement:
 
