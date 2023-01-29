@@ -1,19 +1,15 @@
 import { LoggingService } from '../services/logging.service.js';
+import { writeFile } from 'node:fs/promises';
 
 const logging = new LoggingService();
 
-let comparisonScoreArray: Array<number> = [];
+let storedOutputData: Array<string|number> = [];
+let OrderedstoreOutputData: Array<string|number> = [];
 
 export function matchString(dataSet1: Set<string>, dataSet2: Set<string>): void {
     // deep copy to prevent mutations.
     const dataSet1Copy = new Set([...dataSet1]); 
     const dataSet2Copy = new Set([...dataSet2]);
-
-    // let thing = dataSet1Copy.values();
-    // let thang = dataSet2Copy.values();
-    // let stringMatch = `${thing.next().value} matches ${thang.next().value}`;
-    // console.log(stringMatch);
-    // checkCharacterMatch(stringMatch);
 
     console.log("Time :: " + new Date().getMilliseconds());
     for (const malePlayer of dataSet1Copy.keys()) {
@@ -26,6 +22,7 @@ export function matchString(dataSet1: Set<string>, dataSet2: Set<string>): void 
 }
 
 function checkCharacterMatch(stringMatch): void {
+    let comparisonScoreArray: Array<number> = []
     let removeWhiteSpaceString = stringMatch.replace(/\s+/g, '')
     let comparisonString: Array<string> = removeWhiteSpaceString.split('');
     
@@ -35,7 +32,7 @@ function checkCharacterMatch(stringMatch): void {
         for (let i = 0; i <= comparisonString.length; i++) {
             let comparisonScore: number = 1;
             if (!comparisonString.includes(removedStringValue)) {
-                pushToComparisonScoreArray(1);
+                comparisonScoreArray.push(1);
                 break;
             }
 
@@ -45,21 +42,19 @@ function checkCharacterMatch(stringMatch): void {
                 comparisonString.splice(index, 1);
             }
 
-            pushToComparisonScoreArray(comparisonScore);
+            comparisonScoreArray.push(comparisonScore);
             break;
         }
     }
 
-    reduceComparisonScoreToTwoDigits(comparisonScoreArray);
+    reduceComparisonScoreToTwoDigits(stringMatch, comparisonScoreArray);
 }
 
-function pushToComparisonScoreArray(comparisonScore: number): void {
-    comparisonScoreArray.push(comparisonScore);
-}
-
-function reduceComparisonScoreToTwoDigits(comparisonScoreArray: Array<number>): void {
+function reduceComparisonScoreToTwoDigits(stringMatch: string, comparisonScoreArray: Array<number>): void {
     if (comparisonScoreArray.length === 2) {
         // print output
+        console.log(stringMatch, comparisonScoreArray);
+        storeOutputData(stringMatch, comparisonScoreArray);
         comparisonScoreArray = [];
         return;
     }
@@ -92,5 +87,21 @@ function reduceComparisonScoreToTwoDigits(comparisonScoreArray: Array<number>): 
         tempArray.push(comparisonScoreArrayCopy.pop());
     }
 
-    reduceComparisonScoreToTwoDigits(tempArray);
+    reduceComparisonScoreToTwoDigits(stringMatch, tempArray);
+}
+
+function storeOutputData(stringMatch: string, comparisonScoreArray: Array<number>): void {
+    let comparisonScoreArrayCopy = [...comparisonScoreArray];
+    let tempString = comparisonScoreArrayCopy[0].toString() + comparisonScoreArrayCopy[1].toString();
+
+    // storedOutputData.push(tempString);
+    console.log(storedOutputData);
+}
+
+async function writeToOutputFile(stringMatch: string, comparisonScoreArray: Array<number>): Promise<void> {
+    try {
+        await writeFile('output.txt', stringMatch, { flag: 'a' });
+    } catch (error) {
+        console.error('there was an error:', error.message);
+    }
 }
