@@ -3,6 +3,7 @@ import * as readline from 'node:readline/promises';
 
 import { LoggingService } from './services/logging.service.js';
 import { validateDataForSpecialCharactersAndNumbers, validateDataForAlphabeticalCharactersOnly } from './helpers/validate-strings.js';
+import { matchString } from './helpers/match-string.js';
 
 const logging = new LoggingService();
 
@@ -26,8 +27,7 @@ let femalePlayers: Set<string> = new Set();
     logging.log("Fatal", "Failed to read data :: " + error);
   }
 })().then(() => {
-  console.log(malePlayers);
-  console.log(femalePlayers);
+  matchString(malePlayers, femalePlayers);
 });
 
 function splitDataByGender(dataEntry: string): void {
