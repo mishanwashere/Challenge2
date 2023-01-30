@@ -27,6 +27,11 @@ export class LoggingService {
     private checkBufferSize(): void {
         this.count++;
 
+        /* 
+        * Disclaimer.
+        * I should clear the logMessages, currently the implementation will only log once the count matches the batchSize.
+        * Impact: logs may be lost, or never written.
+        */
         if (this.count === this.batchSize) {
             this.writeLog();
             this.clearCount();
