@@ -3,22 +3,22 @@ import { writeFile } from 'node:fs/promises';
 
 const logging = new LoggingService();
 
-let storedOutputData: Array<string|number> = [];
-let OrderedstoreOutputData: Array<string|number> = [];
+let storedOutputData: Array<{ value: string, score: number }> = [];
+let OrderedstoreOutputData: Array<{ value: string, score: number }> = [];
 
 export function matchString(dataSet1: Set<string>, dataSet2: Set<string>): void {
     // deep copy to prevent mutations.
     const dataSet1Copy = new Set([...dataSet1]); 
     const dataSet2Copy = new Set([...dataSet2]);
 
-    console.log("Time :: " + new Date().getMilliseconds());
     for (const malePlayer of dataSet1Copy.keys()) {
         for (const femalePlayer of dataSet2Copy.keys()) {
             let stringMatch = `${malePlayer} matches ${femalePlayer}`;
             checkCharacterMatch(stringMatch);
         }
     }
-    console.log("Time :: " + new Date().getMilliseconds());
+
+    sortDataSet();
 }
 
 function checkCharacterMatch(stringMatch): void {
@@ -53,7 +53,6 @@ function checkCharacterMatch(stringMatch): void {
 function reduceComparisonScoreToTwoDigits(stringMatch: string, comparisonScoreArray: Array<number>): void {
     if (comparisonScoreArray.length === 2) {
         // print output
-        console.log(stringMatch, comparisonScoreArray);
         storeOutputData(stringMatch, comparisonScoreArray);
         comparisonScoreArray = [];
         return;
@@ -94,13 +93,41 @@ function storeOutputData(stringMatch: string, comparisonScoreArray: Array<number
     let comparisonScoreArrayCopy = [...comparisonScoreArray];
     let tempString = comparisonScoreArrayCopy[0].toString() + comparisonScoreArrayCopy[1].toString();
 
-    // storedOutputData.push(tempString);
-    console.log(storedOutputData);
+    let obj: { value: string, score: number } = {
+        value: stringMatch,
+        score: parseInt(tempString),
+    };
+
+    storedOutputData.push(obj);
 }
 
-async function writeToOutputFile(stringMatch: string, comparisonScoreArray: Array<number>): Promise<void> {
+function sortDataSet(): void {
+    OrderedstoreOutputData = storedOutputData.sort((a,b) => {
+        if (b.score === a.score) {
+            if(a.value < b.value) { return -1; }
+            if(a.value > b.value) { return 1; }
+        }
+
+        return b.score - a.score;
+    });
+
+    writeToOutputFile(OrderedstoreOutputData);
+}
+
+async function writeToOutputFile(storedOutputData: Array<{value: string, score: number}>): Promise<void> {
     try {
-        await writeFile('output.txt', stringMatch, { flag: 'a' });
+        while (storedOutputData.length > 0) {
+            let tempPrintObj = storedOutputData.shift();
+
+            let outputString: string = '';
+            if (tempPrintObj.score > 80) {
+                outputString = `${tempPrintObj.value} ${tempPrintObj.score}%, good match\n`;
+                await writeFile('output.txt', outputString, { flag: 'a' });
+            } else {
+                outputString = `${tempPrintObj.value} ${tempPrintObj.score}%\n`;
+                await writeFile('output.txt', outputString, { flag: 'a' });
+            }
+        }
     } catch (error) {
         console.error('there was an error:', error.message);
     }
