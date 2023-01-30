@@ -44,7 +44,7 @@ Output string (>80% match):
 2. Test string match program with random character input (Numbers,Symbols,Special Characters).  <br />
     2.1 Excluded data to be logged and saved to file (~~maybe~~).
 
-3. Save additional performance logs to log file (maybe).
+3. ~~Save additional performance logs to log file (maybe).~~
 
 # Architectural notes:
 
@@ -58,3 +58,18 @@ data.csv    --(1)-->  app.ts  <--(2)--> match-string.ts
 1. app.ts reads data.csv, and stores in memory.
 2. app.ts passes data.csv (parsed data) to 'match-string.js', 'match-string.js' returns string match data to app.js.
 3. app.ts writes to output.txt and logs.txt (~~maybe~~).
+
+# Disclaimers
+1. 'app.ts' -> 'validateDataEntryForSpecialCharactersAndNumbers()' && 'validateDataForAlphabeticalCharactersOnly()'. <br />
+
+As a v2 I would rework the way data is read from the file and validated, currently implementation is because I didn't want to only validate the data entry once I have already begun modifying it.
+
+2. 'match-string.ts' -> 'reduceComparisonScoreToTwoDigits' <br />
+
+As mentioned in the code comments, will need to reevaluate my implementation beyond this point.
+Definitely ways of improving.
+
+3. 'logging.service.ts' -> 'checkBufferSize()' <br />
+
+Currently the buffer only writes logs when the message 'count' exceeds the 'batchSize'.
+Impact: Some logs will never be written. i.e lost.
