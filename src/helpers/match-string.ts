@@ -48,6 +48,12 @@ function checkCharacterMatch(stringMatch): void {
         }
     }
 
+    /* Disclaimer
+    * Was getting late in the evening when I was working beyond this point.
+    * I would need to reevaluate my implementations below. 
+    * Definitely can do abstraction on this file for clarity/brevity/extensibility.
+    */
+
     reduceComparisonScoreToTwoDigits(stringMatch, comparisonScoreArray);
 }
 
